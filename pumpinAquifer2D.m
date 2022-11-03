@@ -39,7 +39,7 @@ function [deltaP, Re] = pumpinAquifer2D(Lp,rho,D,mu,Q_flow,epsilon,Lx,...
 %--------------------------------------------------------------------------
 % Author: Emma Lepinay
 % Email: el547@cam.ac.uk
-% Date: 04/10/2022; Last revision: 31/10/22
+% Date: 04/10/2022; Last revision: 03/11/2022
 % Version: R2022a
 
 addpath '/Users/lepinay/Desktop/Aquifer Matlab/Energetical Efficiency'
@@ -67,13 +67,13 @@ addpath '/Users/lepinay/Desktop/Aquifer Matlab/Energetical Efficiency'
 
     % Velocity
 
-    vel = 4*Q_flow * (1/pi) * (1/(D^2));
+    U0 = Q_flow * (1/h) * (1/Lx);
     %-------------
     % Pressure Change down Fracture
     
     % Parameters
 
-    deltaPfracture =  vel * Lx * mu / kperm; % Assume linear flow
+    deltaPfracture =  U0 * Lx * mu / kperm; % Assume linear flow
 
     %-------------
     % Outputs

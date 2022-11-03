@@ -43,24 +43,17 @@
 %    
 %    Re = Reynold's number.
 %
-%
-%
 %--------------------------------------------------------------------------
 % The thermal energy added and retrieved to the system in J/s for a 2D 
 % channel and isothermal fracture.
 %
-%[Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,C_p,U0,K_d,ncyc,...
+% [netQ_heat] = netheatTransferAquifer2D(rho,Cp,Q_flow,K_d,ncyc,...
 %                                                years, K_r, Tinj, Taq ,...
 %                                                h, Ly, Lx)
 %
 %
 % Outputs:
-%    Q_heatsystem - net heat transferred into and out of system J/s 
-%    Q_heatavg - net averaged heat transferred into and out of system
-%    time - t_vec from system solver
-%
-%
-%
+%    Q_heat - net heat transferred into system J/s 
 %
 %-------------
 % ASSUMES velocity in fracture is the same as the velocity in the injection
@@ -73,7 +66,7 @@
 %--------------------------------------------------------------------------
 % Author: Emma Lepinay
 % Email: el547@cam.ac.uk
-% Date: 10/10/2022; Last revision: 3/11/2022
+% Date: 10/10/2022; Last revision: 
 % Version: R2022a
 
 %------------- BEGIN CODE -------------------------------------------------
@@ -222,18 +215,17 @@ display(CostInjvPres)
 %-------------
 %Graph
 
-figure(3)
-
-plot(WdPressure,  'DisplayName','Workdone pumping (J)')
-legend show
-
 figure(1)
 
-plot(netQ_heat, 'DisplayName', 'Net Heat injected and retrieved from system')
+plot(WdPressure, 'DisplayName',''Workdone pumping (J)')
+
+hold on
+
+plot(netQ_heat, label2 = 'Net Heat injected and retrieved from system')
 
 hold on 
 
-plot(netInjQ_heat, 'DisplayName', 'Net Heat Transferred during Injection')
+plot(netInjQ_heat, label = 'Net Heat Transferred during Injection')
 grid on 
 legend show
 

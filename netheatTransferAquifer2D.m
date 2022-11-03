@@ -1,4 +1,4 @@
-function [netQ_heat, time] = netheatTransferAquifer2D(rho,C_p,U0,K_d,ncyc,...
+function [Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,C_p,U0,K_d,ncyc,...
                                                 years, K_r, Tinj, Taq ,...
                                                 h, Ly, Lx)
 % heatTransferAquifer2D - Calculates the Thermal Energy added and retrieved
@@ -23,8 +23,11 @@ function [netQ_heat, time] = netheatTransferAquifer2D(rho,C_p,U0,K_d,ncyc,...
 %    Lx - dimensional horizontal length of aquifer
 %
 % Outputs:
-%    Q_heat - net heat transferred into system J/s 
-%    
+%    Q_heatsystem - net heat transferred into and out of system J/s 
+%    Q_heatavg - net averaged heat transferred into and out of system
+%    time - t_vec from system solver
+%
+%
 %
 % Other m-files required: solveCoalmineRobin.m
 % Subfunctions: none
@@ -35,7 +38,7 @@ function [netQ_heat, time] = netheatTransferAquifer2D(rho,C_p,U0,K_d,ncyc,...
 %--------------------------------------------------------------------------
 % Author: Emma Lepinay
 % Email: el547@cam.ac.uk
-% Date: 31/10/2022; Last revision: 
+% Date: 31/10/2022; Last revision: 3/11/2022
 % Version: R2022a
 
 %------------- BEGIN CODE -------------------------------------------------
@@ -60,18 +63,26 @@ function [netQ_heat, time] = netheatTransferAquifer2D(rho,C_p,U0,K_d,ncyc,...
         
         extTf(onoffIndex((2*n)-1):onoffIndex(2*n)) = ...
                     results.frac(1,onoffIndex((2*n)-1):onoffIndex(2*n));
-
+       
+        % Averages Extraction temp
+        extTfavg(n) = mean (extTf(onoffIndex((2*n)-1):onoffIndex(2*n))); 
     end
     
     
     %-------------
-    % Change in Temperature
-    deltaT = 1 - extTf; % Since T_inj non dim is 1 
-    %deltaT = (Tinj - Taq) *deltaT +Taq; % Dimensionalise
+    % Change in Temperature between injected temperature and extracted
+    % temperature 
+    
+    deltaTsystem = extTf - 1; % Since T_inj non dim is 1 
+    
+    deltaTavg = extTfavg -1;
+
+    deltaTsystem = (Tinj - Taq) *deltaTsystem +Taq; % Dimensionalise
 
     %-------------
     % Outcome
-    netQ_heat = rho *C_p * U0 * deltaT;
+    Q_heatsystem = rho *C_p * U0 * deltaTsystem;
+    Q_heatavg = rho *C_p * U0 * deltaTavg;
     time = results.t_vec;
 
 end
