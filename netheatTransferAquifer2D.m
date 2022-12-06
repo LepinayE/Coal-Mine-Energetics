@@ -1,6 +1,8 @@
-function [Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,C_p,U0,K_d,ncyc,...
-                                                years, K_r, Tinj, Taq ,...
-                                                h, Ly, Lx)
+function [Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,...
+                                            C_p,U0,K_d,ncyc,years, K_r, ...
+                                            Tinj, Taq ,h, Ly, Lx)
+
+
 % heatTransferAquifer2D - Calculates the Thermal Energy added and retrieved
 %                           to the system in J/s for a 2D channel and 
 %                           isothermal fracture.
@@ -77,11 +79,17 @@ function [Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,C_p,U0,K_
     
     deltaTavg = extTfavg -1;
 
-    deltaTsystem = (Tinj - Taq) *deltaTsystem +Taq; % Dimensionalise
+    % Dimensionalise
+
+    deltaTsystem = (Tinj - Taq) *deltaTsystem; 
+    
+    deltaTavg = (Tinj - Taq)* deltaTavg; 
+
+    
 
     %-------------
     % Outcome
-    Q_heatsystem = rho *C_p * U0 * deltaTsystem;
+    Q_heatsystem = rho *C_p * U0 * deltaTsystem; %Units J/sm^2
     Q_heatavg = rho *C_p * U0 * deltaTavg;
     time = results.t_vec;
 

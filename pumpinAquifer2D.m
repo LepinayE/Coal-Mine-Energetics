@@ -67,7 +67,10 @@ addpath '/Users/lepinay/Desktop/Aquifer Matlab/Energetical Efficiency'
 
     % Velocity
 
-    U0 = Q_flow * (1/h) * (1/Lx);
+    U0 = Q_flow * (1/h) * (1/Lx); % Assumes model is 1D and we are pumping...
+    % into fracture perpendicular to main pumping line
+
+    
     %-------------
     % Pressure Change down Fracture
     
