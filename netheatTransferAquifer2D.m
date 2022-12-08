@@ -1,4 +1,4 @@
-function [Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,...
+function [Q_heatext,Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,...
                                             C_p,U0,K_d,ncyc,years, K_r, ...
                                             Tinj, Taq ,h, Ly, Lx)
 
@@ -28,6 +28,7 @@ function [Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,...
 %    Q_heatsystem - net heat transferred into and out of system J/s 
 %    Q_heatavg - net averaged heat transferred into and out of system
 %    time - t_vec from system solver
+%    Q_heatext - Heat retrieved during extraction J/s
 %
 %
 %
@@ -81,17 +82,18 @@ function [Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,...
 
     % Dimensionalise
 
-    deltaTsystem = (Tinj - Taq) *deltaTsystem; 
+    deltaTsystem = (Tinj - Taq) .*deltaTsystem; 
     
     deltaTavg = (Tinj - Taq)* deltaTavg; 
 
-    
+    deltaText = (Tinj - Taq).*(extTf) +Taq;
 
     %-------------
     % Outcome
     Q_heatsystem = rho *C_p * U0 * deltaTsystem; %Units J/sm^2
     Q_heatavg = rho *C_p * U0 * deltaTavg;
     time = results.t_vec;
+    Q_heatext = rho *C_p * U0 * deltaText;
 
 end
 %------------- END OF CODE ------------------------------------------------

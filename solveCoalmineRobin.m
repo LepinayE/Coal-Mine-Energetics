@@ -94,7 +94,7 @@ function [results] = solveCoalmineRobin(K_d,ncyc,years,K_r, U0, h, Ly,...
 %--------------------------------------------------------------------------
 % Author: Emma Lepinay
 % Email: el547@cam.ac.uk
-% Date: 14/10/2022; Last revision: 31/10/2022
+% Date: 14/10/2022; Last revision: 08/12/2022
 % Version: R2022a
 
 addpath '/Users/lepinay/Desktop/Aquifer Matlab'/FluxbcStepAquifer
@@ -125,8 +125,10 @@ addpath '/Users/lepinay/Desktop/Aquifer Matlab'/FluxbcStepAquifer
     % d\tau < ((dY)^2)/2 - Courant ondition for rock
     % d\tau <((dX)^2)Pe/2 - Courant ondition for fracture
 
-    minPe = ((h^2)* (U0^2))/(4*3*10^(-5) *K_r); % To keep dt constant ...
+    %minPe = ((h^2)* (U0^2))/(4*3*10^(-5) *K_r); % To keep dt constant ...
     %                       over experiments with different dispersivity
+
+    minPe = Pe;
     
     if ( (dY^2)/ 4 <= dX/(3) ) && ( (dY^2)/ 4 <= ((dX)^2)* (minPe/ 4) )
     

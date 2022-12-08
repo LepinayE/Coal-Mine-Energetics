@@ -1,4 +1,4 @@
- % MASTER FILE
+% MASTER FILE
 %
 % CoalmineEnergy - Comparing the energy needed to run the system vs energy
 %                   output.
@@ -24,9 +24,7 @@
 %    Lx - dimensional horizontal length of aquiferm (m)
 %
 %
-% Input functions:
-%   pumpinAquifer2D.m
-%   netheatTransferAquifer2D.m
+
 %
 %--------------------------------------------------------------------------
 % Pressure change in whole system whcih needs to be worked agaisnt when
@@ -53,16 +51,16 @@
 % The thermal energy added and retrieved to the system in J/s for a 2D 
 % channel and isothermal fracture.
 %
-%[Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,C_p,U0,...
-%                                   K_d,ncyc, years, K_r, Tinj, Taq,...
-%                                   h, Ly, Lx)
+%[Q_heatext,Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,...
+%                                   C_p,U0,K_d,ncyc, years, K_r, Tinj,...
+%                                   Taq, h, Ly, Lx)
 %
 %
 % Outputs:
 %    Q_heatsystem - net heat transferred into and out of system J/s 
 %    Q_heatavg - net averaged heat transferred into and out of system
 %    time - t_vec from system solver
-%
+%    Q_heatext - Heat retrieved during extraction J/s
 %
 %
 %
@@ -236,7 +234,7 @@ iTinj = 2;
 U0 = Q_flow(iQf) * (1/h(ih)) * (1/(Lx));
 
 % Rate of heat retrieved from system J/m^2s
-[Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,C_p,U0,K_d(iKd),...
+[Q_heatext,Q_heatsystem,Q_heatavg, time] = netheatTransferAquifer2D(rho,C_p,U0,K_d(iKd),...
                                         ncyc(incyc),years(iyear), K_r, ...
                                         Tinj(iTinj), Taq(iTaq) ,h(ih),...
                                         Ly, Lx);
